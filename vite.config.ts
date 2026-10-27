@@ -19,6 +19,9 @@ export default defineConfig({
     }),
     fileRoutes({ types: true }),
     tailwindcss(),
-    nitro({ preset: "vercel" }),
+    nitro({
+      preset: "vercel",
+      routeRules: { "/covers/**": { headers: { "cache-control": "public, max-age=31536000, immutable" } } },
+    }),
   ],
 });

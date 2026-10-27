@@ -28,6 +28,8 @@ export default function TrackPage(props: RouteProps<typeof route>) {
                 <AlbumArt
                   class="!h-40 !w-40 shrink-0 !rounded-md shadow-2xl lg:!h-48 lg:!w-48"
                   coverColor={t().coverColor}
+                  coverSeed={t().id}
+                  label={t().title}
                   size="lg"
                 />
                 <div class="flex min-w-0 flex-col items-center gap-1 text-center sm:items-start sm:text-left">

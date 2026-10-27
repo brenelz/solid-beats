@@ -53,6 +53,9 @@ function PlaylistDetail(props: { playlist: PlaylistWithTracks }) {
         <AlbumArt
           class="!h-40 !w-40 !rounded-md shadow-2xl sm:!h-48 sm:!w-48"
           coverColor={props.playlist.coverColor}
+          coverSeed={props.playlist.id}
+          kind="playlist"
+          label={props.playlist.name}
           size="lg"
         />
         <div class="flex flex-col items-center gap-1 text-center sm:items-start sm:text-left">

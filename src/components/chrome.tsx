@@ -248,7 +248,13 @@ export function NowPlayingBar() {
         {(track) => (
           <div class="border-divider dark:border-divider-dark shrink-0 border-t bg-white px-4 py-2 sm:hidden dark:bg-[#181818]">
             <div class="flex items-center gap-3">
-              <AlbumArt class="!h-12 !w-12 !rounded-sm" coverColor={track().coverColor} size="sm" />
+              <AlbumArt
+                class="!h-12 !w-12 !rounded-sm"
+                coverColor={track().coverColor}
+                coverSeed={track().id}
+                label={track().title}
+                size="sm"
+              />
               <TrackInfo subtitle={track().artist} title={track().title} />
               <div class="ml-auto flex items-center gap-3">
                 <SkipButton direction="back" disabled={!player.hasQueue} onClick={player.previous} />
@@ -273,6 +279,8 @@ export function NowPlayingBar() {
             <AlbumArt
               class="!h-10 !w-10 !rounded-sm lg:!h-14 lg:!w-14"
               coverColor={player.track?.coverColor ?? "from-gray-400 to-gray-600"}
+              coverSeed={player.track?.id}
+              label={player.track?.title}
               size="sm"
             />
             <Show

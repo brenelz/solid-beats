@@ -1,6 +1,6 @@
 import { For, Repeat } from "solid-js";
 import type { GenreSummary } from "../lib/types";
-import { Skeleton } from "./ui";
+import { CoverImage, Skeleton } from "./ui";
 
 const genreColors: Record<string, string> = {
   electronic: "from-pink-400/80 to-rose-500/80",
@@ -29,8 +29,15 @@ export function GenreCard(props: { genre: GenreSummary }) {
       href={`/genre/${props.genre.genre}`}
       preload="viewport"
     >
-      <div class={["flex h-28 items-end bg-gradient-to-br p-4", genreColors[props.genre.genre] ?? "from-gray-500 to-gray-700"]}>
-        <div>
+      <div class={["relative flex h-28 items-end bg-gradient-to-br p-4", genreColors[props.genre.genre] ?? "from-gray-500 to-gray-700"]}>
+        <CoverImage
+          class="pointer-events-none absolute top-0 left-1/2 block h-full w-auto max-w-none -translate-x-1/2"
+          kind="genre"
+          label={props.genre.genre}
+          seed={props.genre.genre}
+          shape="banner"
+        />
+        <div class="relative">
           <span class="text-lg font-bold text-white capitalize drop-shadow-md">{props.genre.genre}</span>
           <p class="text-xs text-white/70">{props.genre.count} tracks</p>
         </div>

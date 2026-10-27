@@ -1,5 +1,6 @@
 import type { JSX } from "@solidjs/web";
-import { Repeat, type ParentProps } from "solid-js";
+import { Repeat, Show, type ParentProps } from "solid-js";
+import { coverSrc, type CoverKind, type CoverShape } from "../lib/covers";
 import { MusicIcon, TriangleAlertIcon } from "./icons";
 
 type ArtSize = "sm" | "md" | "lg";
@@ -24,18 +25,47 @@ export function NoteGlyph(props: { class?: string }) {
   );
 }
 
-export function AlbumArt(props: { coverColor: string; size?: ArtSize; class?: string; style?: JSX.CSSProperties }) {
+export function CoverImage(props: { seed: string; label: string; kind: CoverKind; shape: CoverShape; class?: string }) {
+  return (
+    <img
+      alt=""
+      class={props.class ?? "pointer-events-none absolute inset-0 block h-full w-full object-cover"}
+      decoding="sync"
+      loading="eager"
+      src={coverSrc(props.seed, props.label, props.kind, props.shape)}
+    />
+  );
+}
+
+export function AlbumArt(props: {
+  coverColor: string;
+  coverSeed?: string;
+  label?: string;
+  kind?: Exclude<CoverKind, "genre">;
+  size?: ArtSize;
+  class?: string;
+  style?: JSX.CSSProperties;
+}) {
   return (
     <div
       class={[
-        "flex shrink-0 items-center justify-center rounded-md bg-gradient-to-br",
+        "relative flex shrink-0 items-center justify-center overflow-hidden rounded-md bg-gradient-to-br",
         props.coverColor,
         artSizes[props.size ?? "md"],
         props.class,
       ]}
       style={props.style}
     >
-      <NoteGlyph />
+      <Show when={props.coverSeed} fallback={<NoteGlyph />}>
+        {(seed) => (
+          <CoverImage
+            kind={props.kind ?? "track"}
+            label={props.label ?? seed()}
+            seed={seed()}
+            shape={props.size === "lg" ? "square" : "thumb"}
+          />
+        )}
+      </Show>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { formatCount, formatDuration } from "../lib/utils";
 import { CheckIcon, HeartIcon, ListPlusIcon, MusicIcon, PlayIcon, PlusIcon } from "./icons";
 import { usePlayer } from "./player";
 import { toast } from "./toaster";
-import { AlbumArt, Collapsible, Equalizer, gridClass, NoteGlyph, Skeleton } from "./ui";
+import { AlbumArt, Collapsible, CoverImage, Equalizer, gridClass, Skeleton } from "./ui";
 
 /** Clicks on these inside a playable row belong to them, not to the row. */
 const ownClick = (e: Event) => (e.target as Element).closest("a, button, [popover]") !== null;
@@ -264,7 +264,7 @@ export function TrackRow(props: { track: Track; index?: number; queue?: Track[];
     <TrackPlayRow queue={props.queue} track={props.track}>
       <div class="flex items-center gap-3 px-3 py-2">
         <TrackIndexCell index={props.index} trackId={props.track.id} />
-        <AlbumArt coverColor={props.track.coverColor} size="sm" />
+        <AlbumArt coverColor={props.track.coverColor} coverSeed={props.track.id} label={props.track.title} size="sm" />
         <div class="flex min-w-0 flex-1 flex-col">
           <NowPlayingTrackLink track={props.track} />
           <span class="text-muted truncate text-xs">
@@ -351,11 +351,11 @@ export function AlbumCard(props: { track: Track }) {
       <div class="relative">
         <div
           class={[
-            "flex aspect-square w-full items-center justify-center rounded-md bg-gradient-to-br shadow-lg",
+            "relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-md bg-gradient-to-br shadow-lg",
             props.track.coverColor,
           ]}
         >
-          <NoteGlyph class="h-1/3 w-1/3 text-white/50" />
+          <CoverImage kind="track" label={props.track.title} seed={props.track.id} shape="square" />
         </div>
         <PlayButton class="card-play-btn absolute right-2 bottom-2" track={props.track} />
       </div>
@@ -415,7 +415,13 @@ export function QuickPlayGrid(props: { tracks: Track[] }) {
           <TrackPlayRow track={track()}>
             <div class="bg-card/60 hover:bg-card dark:bg-card-dark/60 dark:hover:bg-card-dark flex items-center gap-3 rounded-md px-3 py-2 transition-colors">
               <TrackIndexCell trackId={track().id} />
-              <AlbumArt class="!h-10 !w-10 !rounded-md" coverColor={track().coverColor} size="sm" />
+              <AlbumArt
+                class="!h-10 !w-10 !rounded-md"
+                coverColor={track().coverColor}
+                coverSeed={track().id}
+                label={track().title}
+                size="sm"
+              />
               <div class="flex min-w-0 flex-1 flex-col">
                 <NowPlayingTrackLink track={track()} />
                 <span class="text-muted truncate text-xs">{track().artist}</span>

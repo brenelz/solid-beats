@@ -4,7 +4,7 @@ import type { ActionResult, PlaylistSummary, Track } from "../lib/types";
 import { Trash2Icon, XIcon } from "./icons";
 import { toast } from "./toaster";
 import { TrackRow } from "./tracks";
-import { Button, EmptyState, gridClass, NoteGlyph, Skeleton, Spinner } from "./ui";
+import { Button, CoverImage, EmptyState, gridClass, Skeleton, Spinner } from "./ui";
 
 export function PlaylistCard(props: { playlist: PlaylistSummary }) {
   return (
@@ -15,11 +15,11 @@ export function PlaylistCard(props: { playlist: PlaylistSummary }) {
     >
       <div
         class={[
-          "flex aspect-square w-full items-center justify-center rounded-md bg-gradient-to-br shadow-lg",
+          "relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-md bg-gradient-to-br shadow-lg",
           props.playlist.coverColor,
         ]}
       >
-        <NoteGlyph class="h-1/3 w-1/3 text-white/50" />
+        <CoverImage kind="playlist" label={props.playlist.name} seed={props.playlist.id} shape="square" />
       </div>
       <div class="flex min-w-0 flex-col gap-0.5">
         <span class="truncate text-sm font-semibold text-black dark:text-white">{props.playlist.name}</span>
